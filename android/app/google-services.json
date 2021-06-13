@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "47337173931",
+    "project_id": "alzapp-project",
+    "storage_bucket": "alzapp-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47337173931:android:8ea30b3b33e459147698ee",
+        "android_client_info": {
+          "package_name": "com.alzapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47337173931-9eil1tgs43pnb0kck24gj84ul4fpde1n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.alzapp",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "47337173931-eo0mgkh3jrk8cg8874vhleve1luoogi1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhbgYzaFfC_eau87ajLa9E9kssZtovPxc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47337173931-eo0mgkh3jrk8cg8874vhleve1luoogi1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
