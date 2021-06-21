@@ -1,0 +1,150 @@
+{
+    "questions": [
+        {
+            "questionText": "1. Yakınınızın hangi düzeyde unutkanlıkları var?",
+            "answers": [
+                {
+                    "label": "Unutkanlığı yok ya da önemsiz detayları unuttuğu oluyor",
+                    "value": 0
+                },
+                {
+                    "label": "Geçmişte neredeyse tamamen hatırlayabildiği gündelik detayları hatırlamakta ara sıra zorlandığı oluyor",
+                    "value": 0
+                },
+                {
+                    "label": "Orta şiddette unutkanlıkları var, güncel olayları hatırlamakta belirgin şekilde zorlanıyor ve bu günlük yaşamını etkiliyor",
+                    "value": 0
+                },
+                {
+                    "label": "Şiddetli unutkanlıkları var, güncel olayların çok az bir kısmını hatırlayabiliyor ve uzak anıları da çok net değil",
+                    "value": 0
+                },
+                {
+                    "label": "Şiddetli unutkanlıkları var, güncel olayları hiç aklında tutamıyor ve geçmiş anılar ise tamamen bulanık.",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "questionText": "2. Yakınınız zaman ve mekân oryantasyonunda ne düzeyde güçlük yaşıyor?",
+            "answers": [
+                {
+                    "label": "Zaman ve mekan oryantasyonunda güçlük yaşamıyor",
+                    "value": 0
+                },
+                {
+                    "label": "Zaman ile ilgili hafif oryantasyon güçlükleri oluyor, mesela günü ve ayı çok iyi biliyor ama saatin kaç olduğunu tahmin etmekte zorlanır",
+                    "value": 0
+                },
+                {
+                    "label": "Orta şiddette zaman ve mekan oryantasyon güçlükleri var, mesela hangi gün ve ayda olduğumuzu hatırlamakta zorlanır ya da çok iyi bildiği yerde kaybolduğu oldu ",
+                    "value": 0
+                },
+                {
+                    "label": "Şiddetli oryantasyon güçlükleri yaşıyor, hangi zaman diliminde olduğumuzu ya da nerede olduğumuzu anlamakta zorlanır",
+                    "value": 0
+                },
+                {
+                    "label": "Zaman ve mekanı tamamen kaybetmiş durumda",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "questionText": "3. Yakınınızın muhakeme ve problem çözme becerilerindeki güçlük ne düzeydedir?",
+            "answers": [
+                {
+                    "label": "Akademik ve sosyal yaşamını etkileyecek bir güçlük yaşamıyor",
+                    "value": 0
+                },
+                {
+                    "label": "Geçmiş performansına göre gündelik yaşamdaki muhakeme ve problem çözme becerilerinde düşüş yaşıyor",
+                    "value": 0
+                },
+                {
+                    "label": "Orta şiddette problemleri varü gündelik problemlerle başa çıkmakta zorlanıyor ve bu durum sosyal ortamlardaki uyumunu da etkiliyor",
+                    "value": 0
+                },
+                {
+                    "label": "Şiddetli düzeyde problem çözme ve muhakeme problemleri yaşıyor, çevredekiler de bu durumu hemen fark ediyolarlar",
+                    "value": 0
+                },
+                {
+                    "label": "Muhakeme ve problem çözme yeteniğini tamamen yitirmiş durumda",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "questionText": "4. Yakınınızın ev dışı ortamdaki işlevsellik düzeyi nedir?",
+            "answers": [
+                {
+                    "label": "Geçmişte olduu gibi şimdi de alışveriş ve sosyal yaşama katılım gibi konularda herhangi bir güçlük yaşamıyor",
+                    "value": 0
+                },
+                {
+                    "label": "Alışveriş ve sosyal yaşama katılım konularında ufak tefek güçlükler yaşıyor, ama kısmi bir destek ile işlevselliğini sürdürebiliyor",
+                    "value": 0
+                },
+                {
+                    "label": "Ev dışında bağımsız hareket edemez fakat dışarıdan bakan biri bunu fark etmeyebilir",
+                    "value": 0
+                },
+                {
+                    "label": "Ev dışında bağımsız hareket edemez ve bu başkaları tarafından da fark edilebilir",
+                    "value": 0
+                },
+                {
+                    "label": "Sürekli bakım olmadan ev dışında işlev görmez durumda",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "questionText": "5. Yakınınızın ev içindeki işleri düzenleme ve kendini meşgul tutabilme düzeyi nedir?",
+            "answers": [
+                {
+                    "label": "Eskisi gibi ev işlerini yapabiliyor ve kendini meşgul tutacak hobilerle ilgileniyor",
+                    "value": 0
+                },
+                {
+                    "label": "Ev işleri ve hobileri sürdürüyor fakat eskisi fakat eskisi kadar becerikli değil",
+                    "value": 0
+                },
+                {
+                    "label": "Karmaşık ev işleri ve hobilerini artık sürdürmüyor fakat basit olanları devam ettirebiliyor",
+                    "value": 0
+                },
+                {
+                    "label": "En temel ev işlerini sürdürüyor fakat oldukça yetersiz",
+                    "value": 0
+                },
+                {
+                    "label": "Ev işleri ve kendini meşgul tutma ile ilgili olarak tamamen işlevini kaybetti",
+                    "value": 1
+                }
+            ]
+        },
+        {
+            "questionText": "6. Yakınınız kişisel bakım ve hijyen konularında ne düzeydedir?",
+            "answers": [
+                {
+                    "label": "Hiçbir yardım almadan kişisel bakımı ve hijyeni için gerekli eylemleri sürdürebilir",
+                    "value": 0
+                },
+                {
+                    "label": "Kişisel bakım ve hijyeni için gerekli eylemleri sürdürebilir fakat uygun kıyafet seçmek gibi çok karmaşık konularda yardım gerekebilir",
+                    "value": 0
+                },
+                {
+                    "label": "Kişisel bakım ve hijyenini sağlamak için sıklıkla yardıma ihtiyacı var, tek başına sürdürmekte zorlanıyor",
+                    "value": 0
+                },
+                {
+                    "label": "Tamamen yardıma muhtaç durumda, altına kaçırması da olabiliyor",
+                    "value": 1
+                }
+            ]
+        }
+    ]
+}

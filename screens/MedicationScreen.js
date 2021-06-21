@@ -1,10 +1,11 @@
 import React, { Component, useEffect, useState } from 'react';
-import { View, Text, TextInput,TouchableOpacity, ImageBackground, Button, Modal, Keyboard, Alert, StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native';
+import { View, Text, TextInput,TouchableOpacity, ImageBackground, Image, Button, Modal, Keyboard, Alert, StyleSheet, ScrollView, KeyboardAvoidingView, Platform} from 'react-native';
 import PushNotification from 'react-native-push-notification'
 import NotifService from '../services/NotifService';
 import MedicationBar from '../components/MedicationBar'
 import Bar from '../components/Bar'
 import InputText from '../components/InputText';
+import exampleImage from '../assets/default-image.png'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ImagePicker from "react-native-image-crop-picker";
 import Icon from 'react-native-vector-icons/MaterialIcons'
@@ -48,13 +49,17 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
         setMedicationItems(itemsCopy)
       }
     
-      const selectOnePhoto = () => {
+    const exampleImageUri = Image.resolveAssetSource(exampleImage).uri
+      
+    const selectOnePhoto = () => {
         ImagePicker.openPicker({
             width: 300,
             height: 400,
             cropping: true
           }).then(image => {
             console.log(image);
+            const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+            setImage(imageUri)
           });
         }
         const takeOnePhoto = () => {
@@ -64,6 +69,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
               cropping: true,
             }).then(image => {
               console.log(image);
+              const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+              setImage(imageUri)
             });
         }
     
@@ -101,7 +108,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
             notif.scheduleNotif("İlaç alarmı!",medicationName + " için ilaç vaktiniz geldi." + medicationExp + " ." + writeTimes(timeItems[prop]), timeItems[prop])
           }
                     
-          Alert.alert('Kurdum notifikasyonu kardeşşş.')
+          Alert.alert('İlacınız başarıyla eklenmiştir.')
           }
         },[medicationItems])
   const onRegister = (token) => {
@@ -120,35 +127,45 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 
   
   return (
+  
+ 
     <View style={styles.container}>
-    <Modal transparent={false}
+    <Modal style={styles.model} transparent={false}
        visible={isVisible}>
-       
-  <View style={{...styles.tasksWrapper,
+     <ScrollView    
+          contentContainerStyle={{
+          flexGrow: 1
+        }}
+        keyboardShouldPersistTaps='handled'>
+    <View style={{...styles.tasksWrapper,
           flex: 1,
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center'}}>  
           <TouchableOpacity onPress={() => setIsVisible(false)}>
-       <View style={{...styles.addWrapper,'alignSelf':'center','marginVertical':10}}>
+          <View style={{...styles.addWrapper,'alignSelf':'center','marginVertical':10}}>
             <Text style={styles.addText}>x</Text>
           </View>
           </TouchableOpacity>  
           <ImageBackground 
          style={{width: 150,
          height: 150,
-         resizeMode: 'contain',borderRadius:40}} imageStyle={{borderRadius:40}} source={image ? image : require('../assets/default-image.png')}>
-             <View>
+         resizeMode: 'contain',borderRadius:40}} imageStyle={{borderRadius:40},{marginTop:0}} source={{uri: image ? image : exampleImageUri}}>
+             <View style={{marginTop:0}}>
                  <Icon onPress={pickerSelectionAlert} name='camera-alt' size={40} style={{alignSelf:'flex-end'}}></Icon>
              </View>
-         </ImageBackground>
-          <InputText onChangeText={(value) => setMedicationName(value)} placeholderText='İlaç adı...'></InputText>
-          <InputText onChangeText={(value) => setMedicationExp(value)} placeholderText='Açıklama...'></InputText>
-          <Icon onPress={() => {setshowTimePicker(true)}} name='calendar-today' size={32}></Icon>
+          </ImageBackground>
+          <View style={styles.input} >
+            <InputText  onChangeText={(value) => setMedicationName(value)} placeholderText='İlaç adı...'></InputText>
+            <InputText  onChangeText={(value) => setMedicationExp(value)} placeholderText='Açıklama...'></InputText>
+          </View>
+          <Icon style={styles.icon} onPress={() => {setshowTimePicker(true)}} name='calendar-today' size={32}></Icon>
           <View style={styles.tasksWrapper}>
+          
           <View style={styles.items}>
-          {
-            timeItems.length > 0 &&
+          {   
+              
+              timeItems.length > 0 &&
               timeItems.map((item, index) => {
               return (
                 <TouchableOpacity key={index}  onPress={() => deleteTime(index)}>
@@ -160,8 +177,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
           
           </View>
           <TouchableOpacity onPress={() => {setIsVisible(false); setMedicationItems([...medicationItems,{ medName : medicationName, medExp : medicationExp, medTime : timeItems}]);}}>
-       <View style={{...styles.addWrapper,'alignSelf':'center','marginVertical':10}}>
-            <Text style={styles.addText}>+</Text>
+       <View style={{...styles.addWrapper1,'alignSelf':'center','marginVertical':10}}>
+            <Text style={styles.addText1}>+</Text>
           </View>
           </TouchableOpacity>
           </View>   
@@ -184,7 +201,9 @@ onChange={onChange}
       
     </View>
   </View>
+  </ScrollView>
 </Modal>
+
       {/* Added this scroll view to enable scrolling when list gets longer than the page */}
       <ScrollView
         contentContainerStyle={{
@@ -218,8 +237,8 @@ onChange={onChange}
         style={styles.writeTaskWrapper}
       >
         <TouchableOpacity onPress={() => setIsVisible(true)}>
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
+          <View style={styles.addWrapper1}>
+            <Text style={styles.addText1}>+</Text>
           </View>
         </TouchableOpacity>
       </KeyboardAvoidingView>
@@ -234,10 +253,22 @@ onChange={onChange}
           backgroundColor: '#E8EAED',
         },
         tasksWrapper: {
-            paddingHorizontal: 20,
+            paddingHorizontal: 10,
+            backgroundColor: '#E8EAED',
           },
         items: {
-          marginTop: 30,
+          marginTop: 20,
+          flexDirection: 'row',
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          marginRight: 3,
+          marginLeft: 3
+
+  
+        },
+        icon:{
+          marginBottom:10,
+          marginTop: 20,
         },
         writeTaskWrapper: {
           position: 'absolute',
@@ -248,13 +279,14 @@ onChange={onChange}
           alignItems: 'center'
         },
         input: {
-          paddingVertical: 15,
-          paddingHorizontal: 15,
+          paddingVertical: 20,
+          paddingHorizontal: 20,
           backgroundColor: '#FFF',
-          borderRadius: 60,
           borderColor: '#C0C0C0',
           borderWidth: 1,
-          width: 250,
+          width: 350,
+          marginTop:30,
+
         },
         addWrapper: {
           width: 60,
@@ -265,11 +297,30 @@ onChange={onChange}
           alignItems: 'center',
           borderColor: '#C0C0C0',
           borderWidth: 1,
+          
+        },
+        addWrapper1: {
+          width: 60,
+          height: 60,
+          backgroundColor: '#FFF',
+          borderRadius: 60,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderColor: '#C0C0C0',
+          borderWidth: 1,
+          marginTop:4,
         },
         addText: {
-          
           fontSize:32,
+          color:'black',
           alignSelf:'center'
+          
+        },
+        addText1: {
+          fontSize:32,
+          color:'black',
+          alignSelf:'center'
+          
         },
       });
 

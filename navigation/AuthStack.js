@@ -12,8 +12,13 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+
+import UserFormScreen from '../screens/UserFormScreen'
+import Quiz from '../screens/Quiz';
+import Results from '../screens/Result';
+
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import OnboardingScreen from '../screens/OnboardingScreen'
 import LoginScreen from '../screens/LoginScreen'
 import SignupScreen from '../screens/SignupScreen'
@@ -65,9 +70,31 @@ let routeName;
         <Stack.Screen name="Login" component={LoginScreen} options={{header:() => null}}></Stack.Screen>
         <Stack.Screen name="Signup" component={SignupScreen} options={({navigation}) => ({
         'title':'',
-         
-          
         })}></Stack.Screen>
+        <Stack.Screen
+                      name="Home"
+                      component={UserFormScreen}
+                      options={{
+                          title: "Profil",
+                      }}
+                  />
+          
+                  <Stack.Screen
+                      name="Quiz"
+                      component={Quiz}
+                      options={{
+                          title: "Teşhis Testi",
+                      }}
+                  />
+                  <Stack.Screen
+                      name="Result"
+                      component={Results}
+                      options={{
+                          title: "Sonuçlar",
+                      }}
+                  />
+          
+        
         <Stack.Screen name="PasswordReset" component={PasswordResetScreen} options={({navigation}) => ({
         'title':'',
          

@@ -72,7 +72,7 @@ const Login = ({navigation}) => {
             secureTextEntry={true}>
             </InputText>
 
-            { !isValidPassword ?  <Text style={{'fontSize':14,'color':'red', 'alignSelf':'flex-start'}}>Hatalı şifre. <Text style={{'color':'navy'}}>Neden?</Text></Text> : <Text></Text>}
+            { !isValidPassword ?  <Text style={{'fontSize':14,'color':'red', 'alignSelf':'flex-start'}}>Hatalı şifre. <Text onPress={() => Alert.alert('Şifre kuralları','1. Şifre en az 8 karakterden oluşmalıdır.\n2.En az 1 adet büyük harf ve sayı içermelidir.\n3.Türkçe karakter içermemelidir.')}style={{'color':'navy'}}>Neden?</Text></Text> : <Text></Text>}
 
             <TouchableOpacity style={{'alignSelf':'flex-end'}}>
             <Text style={styles.forgotPassword} onPress={() => navigation.navigate('PasswordReset')}>Şifremi Unuttum?</Text>
@@ -95,6 +95,11 @@ const Login = ({navigation}) => {
             <Image style={styles.socialLogos} source={require('../assets/google-logo.png')}></Image>
             </TouchableOpacity>
             </View>
+            <View style={{'flexDirection':'row','padding':20}}>
+            <TouchableOpacity  style={styles.buttonContainer} onPress={() => navigation.navigate('Home')}>
+                <Text style={styles.buttonText}>Teşhis Testi</Text>
+            </TouchableOpacity>
+            </View>
         </View>
     )
 }
@@ -104,8 +109,25 @@ const styles = StyleSheet.create({
         marginTop:windowHeight/20,
         alignItems:'center',
         justifyContent:'center',
-        padding:"8%"
+        padding:"8%",
+        marginBottom:120
     },
+    buttonContainer: {
+        marginTop: 15,
+        marginBottom: 15,
+        width: '70%',
+        height: windowHeight / 15,
+        backgroundColor: '#2e545e',
+        padding: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 8,
+      },
+      buttonText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#ffffff',
+      },
     // mailInput: {
     //     marginTop:5,
     //     marginBottom: 10,

@@ -117,7 +117,7 @@ export const AuthProvider = ({children}) => {
                 },
                 sosButton: async (personTel,coordslink) => {
                 Alert.alert('Acil Yardım Butonu', 'Bu buton anlık bulunduğunuz konumu İletişim Kişilerim bölümüne eklediğiniz telefon numaralarına SMS yolu ile gönderecek. \n\nOnaylıyor musunuz?',[
-                {text: 'Tamam'},
+                {text: 'Tamam', onPress: () => Alert.alert("Cancel Pressed")},
                 {text: 'Vazgeç', style:'cancel'}
           ])
                     await SendSMS.send({

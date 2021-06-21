@@ -12,11 +12,12 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import OnboardingScreen from './screens/OnboardingScreen.js'
 import LoginScreen from './screens/LoginScreen.js'
 import Providers from './navigation/index.js';
-
+import { YellowBox } from "react-native";
+YellowBox.ignoreWarnings([""]);
 
 const App = () => {
   

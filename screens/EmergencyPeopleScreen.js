@@ -1,11 +1,12 @@
 import React, { Component, useEffect, useState, useContext } from 'react';
-import { View, Text, TextInput,TouchableOpacity, ImageBackground, Button, Modal, Keyboard, Alert, StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native';
+import { View, Text, TextInput,TouchableOpacity, ImageBackground, Image, Button, Modal, Keyboard, Alert, StyleSheet, ScrollView, KeyboardAvoidingView} from 'react-native';
 import PushNotification from 'react-native-push-notification'
 import NotifService from '../services/NotifService';
 import MedicationBar from '../components/MedicationBar'
 import EPBar from '../components/EPBar'
 import InputText from '../components/InputText';
 import PhoneInput from 'react-phone-number-input'
+import exampleImage from '../assets/default-image.png'
 import ImagePicker from "react-native-image-crop-picker";
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { AuthContext } from '../navigation/AuthProvider'
@@ -29,6 +30,8 @@ import { AuthContext } from '../navigation/AuthProvider'
         itemsCopy.splice(index, 1);
         setPersonItems(itemsCopy)
       }
+
+      const exampleImageUri = Image.resolveAssetSource(exampleImage).uri
     
       const selectOnePhoto = () => {
         ImagePicker.openPicker({
@@ -37,6 +40,8 @@ import { AuthContext } from '../navigation/AuthProvider'
             cropping: true
           }).then(image => {
             console.log(image);
+            const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+            setImage(imageUri)
           });
         }
         const takeOnePhoto = () => {
@@ -46,6 +51,8 @@ import { AuthContext } from '../navigation/AuthProvider'
               cropping: true,
             }).then(image => {
               console.log(image);
+              const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path;
+              setImage(imageUri)
             });
         }
     
@@ -109,18 +116,20 @@ import { AuthContext } from '../navigation/AuthProvider'
           <ImageBackground 
          style={{width: 150,
          height: 150,
-         resizeMode: 'contain',borderRadius:40}} imageStyle={{borderRadius:40}} source={image ? image : require('../assets/default-image.png')}>
+         resizeMode: 'contain',borderRadius:40}} imageStyle={{borderRadius:40}} source={{uri: image ? image : exampleImageUri}}>
              <View>
                  <Icon onPress={pickerSelectionAlert} name='camera-alt' size={40} style={{alignSelf:'flex-end'}}></Icon>
              </View>
          </ImageBackground>
+          <View style={styles.input}>
           <InputText onChangeText={(value) => setPersonName(value)} placeholderText='Kişi adı...'></InputText>
           <InputText maxLength={11} textContentType='telephoneNumber' keyboardType={'phone-pad'} onChangeText={(value) => setPersonPhone(value)} placeholderText='Telefon...'></InputText>
           <InputText onChangeText={(value) => setPersonExp(value)} placeholderText='Açıklama...'></InputText>
-          <View style={styles.tasksWrapper}>
+          </View>
+         <View style={styles.tasksWrapper}>
           
           <TouchableOpacity onPress={() => {setIsVisible(false); setPersonItems([...personItems,{ personName : personName, personPhone : personPhone, personExp : personExp}]); setPersonTel([...personTel, personPhone])}}>
-       <View style={{...styles.addWrapper,'alignSelf':'center','marginVertical':10}}>
+       <View style={{...styles.addWrapper1,'marginVertical':10}}>
             <Text style={styles.addText}>+</Text>
           </View>
           </TouchableOpacity>
@@ -150,7 +159,7 @@ import { AuthContext } from '../navigation/AuthProvider'
           {
             personItems.map((item, index) => {
               return (
-                <TouchableOpacity key={index}>
+                <TouchableOpacity style={{flexDirection: 'column'}} key={index}>
                   <EPBar onDelete={() => deletePerson(index)} personName={item['personName']} personPhone={item['personPhone']} personExp={item['personExp']}/> 
                 </TouchableOpacity>
               )
@@ -168,7 +177,7 @@ import { AuthContext } from '../navigation/AuthProvider'
         style={styles.writeTaskWrapper}
       >
         <TouchableOpacity onPress={() => setIsVisible(true)}>
-          <View style={styles.addWrapper}>
+          <View style={styles.addWrapper1}>
             <Text style={styles.addText}>+</Text>
           </View>
         </TouchableOpacity>
@@ -197,14 +206,16 @@ import { AuthContext } from '../navigation/AuthProvider'
           justifyContent: 'space-around',
           alignItems: 'center'
         },
+
         input: {
-          paddingVertical: 15,
-          paddingHorizontal: 15,
+          paddingVertical: 20,
+          paddingHorizontal: 20,
           backgroundColor: '#FFF',
-          borderRadius: 60,
           borderColor: '#C0C0C0',
           borderWidth: 1,
-          width: 250,
+          width: 350,
+          marginTop:30,
+
         },
         addWrapper: {
           width: 60,
@@ -215,6 +226,18 @@ import { AuthContext } from '../navigation/AuthProvider'
           alignItems: 'center',
           borderColor: '#C0C0C0',
           borderWidth: 1,
+          marginTop:140,
+        },
+        addWrapper1: {
+          width: 60,
+          height: 60,
+          backgroundColor: '#FFF',
+          borderRadius: 60,
+          justifyContent: 'center',
+          alignItems: 'center',
+          borderColor: '#C0C0C0',
+          borderWidth: 1,
+          marginTop:40,
         },
         addText: {
           

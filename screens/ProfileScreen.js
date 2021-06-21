@@ -10,12 +10,14 @@ import {
     Image,
     TextInput,
     ImageBackground,
-    Alert
+    Alert,
+    Platform
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { LoginButton } from 'react-native-fbsdk';
 import { AuthContext } from '../navigation/AuthProvider';
 import firestore from '@react-native-firebase/firestore'
+import moment from 'moment'
 import { set } from 'react-native-reanimated';
 
 
@@ -24,7 +26,7 @@ const Profile = ({navigation}) => {
     const {user, logout} = useContext(AuthContext)
     const [userData, setUserData] = useState(null)
     const [DOBDate, setDOBDate] = useState(new Date())
-
+    const [image, setImage] = useState()
     const [isEditing, setisEditing] = useState(false)
     const [openGender, setOpenGender] = useState(false);
     const [openBloodType, setOpenBloodType] = useState(false);
@@ -65,8 +67,8 @@ const Profile = ({navigation}) => {
 
   const handleUpdate = async() => {
     //   let imgUrl = await uploadImage()
-    // if ( imgUrl === null && userData.userImg) {
-    //     imgUrl = userData.userImg
+    // if ( imgUrl === null && userData.imgUrl) {
+    //     imgUrl = userData.imgUrl
     // }
     firestore().collection('users').doc(user.uid).update
     ({
@@ -76,8 +78,8 @@ const Profile = ({navigation}) => {
         gender: userData.gender,
         bloodType: userData.bloodType,
         adress: userData.adress,
-        DOB: userData.DOB
-        // imgUrl: userData.imgUrl
+        DOB: userData.DOB,
+        //imgUrl: userData.imgUrl
     
     })
     .then(() => {
@@ -96,6 +98,8 @@ const Profile = ({navigation}) => {
         cropping: true
       }).then(image => {
         console.log(image);
+        const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path
+        setImage(imageUri)
       });
     }
       const takeOnePhoto = () => {
@@ -105,9 +109,48 @@ const Profile = ({navigation}) => {
             cropping: true,
           }).then(image => {
             console.log(image);
+            const imageUri = Platform.OS === 'ios' ? image.sourceURL : image.path
+            setImage(imageUri)
           });
       }
 
+      const uploadImage = async () => {
+        const uploadUri = image;
+        let filename = uploadUri.substring(uploadUri.lastIndexOf('/') + 1);
+        
+        const storageRef = storage().ref(`photos/${filename}`);
+        const task = storageRef.putFile(uploadUri);
+
+        // Set transferred state
+        task.on('state_changed', (taskSnapshot) => {
+        console.log(
+            `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
+        );
+
+        setTransferred(
+            Math.round(taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) *
+            100,
+      );
+    });
+        try {
+            await task;
+      
+            const url = await storageRef.getDownloadURL();
+      
+            setUploading(false);
+            setImage(null);
+      
+            // Alert.alert(
+            //   'Image uploaded!',
+            //   'Your image has been uploaded to the Firebase Cloud Storage Successfully!',
+            // );
+            return url;
+      
+          } catch (e) {
+            console.log(e);
+            return null;
+          }
+      }
     const pickerSelectionAlert = () => {
         Alert.alert('Fotoğraf Değiştirme','',[
             {text: 'Fotoğraf çek', onPress:takeOnePhoto},
@@ -250,13 +293,13 @@ const Profile = ({navigation}) => {
                          flexDirection: 'row',
                          alignSelf: "center"}}>
                              <Text style={{fontSize: 18, fontWeight: "bold", marginTop:12, marginLeft: 13}}>Adres: </Text>
-                             <TextInput onChangeText={(text) => setUserData({...userData, adress:text})} value={userData ? userData.adress : ''}style={{fontSize: 20}}/>
+                             <TextInput onChangeText={(text) => setUserData({...userData, adress:text})} value={userData ? userData.adress : ''} style={{fontSize: 20}}/>
                              
                          </View>
                          
                      </View>
-                     <TouchableOpacity onPress={() => navigation.navigate('Medication')} style={styles.infoBoxWrapper2}>
-                         <View style={{ width: '100%',
+                     <TouchableOpacity  style={styles.infoBoxWrapper2}>
+                         <View style={styles.infoBoxWrapper2,{ width: '100%',
                          flexDirection: 'row',
                          alignSelf: "center",}}>
                              <Text style={{fontSize: 24, fontWeight: "bold", marginLeft: 13, alignSelf: "center"}}>İlaçlarım </Text>
@@ -265,7 +308,7 @@ const Profile = ({navigation}) => {
                             
                          </View>
                      </TouchableOpacity>
-                     <TouchableOpacity onPress={() => alert("İletişim Kişilerim")} style={styles.infoBoxWrapper3}>
+                     <TouchableOpacity style={styles.infoBoxWrapper3}>
                          <View style={{ width: '100%',
                          flexDirection: 'row',
                          alignSelf: "center",}}>
@@ -285,7 +328,8 @@ const Profile = ({navigation}) => {
             height: 150,
             resizeMode: 'contain',borderRadius:40}}source={require('../assets/default-image.png')}></Image>
             <View style={styles.container2}>
-            <TouchableOpacity onPress={() => setisEditing(true)} style={styles.header2}>
+                        
+                        <TouchableOpacity onPress={() => setisEditing(true)} style={styles.header2}>
                             <Text style={{fontSize: 19, fontWeight: "bold", textDecorationLine: 'underline'}}>Profili Düzenle</Text>
 
                         </TouchableOpacity>
@@ -332,7 +376,7 @@ const Profile = ({navigation}) => {
                             flexDirection: 'row',
                             alignSelf: "center"}}>
                                 <Text style={{fontSize: 20, fontWeight: "bold", marginLeft: 13}}>Doğum Yılı: </Text>
-                                <Text style={{fontSize: 20}}>{userData ? extractDate() : ''}</Text>
+                                <Text style={{fontSize: 20}}>{userData ? moment(userData.DOB).format('DD/MM/YYYY') : ''}</Text>
                                 
                             </View>
                             
@@ -347,7 +391,7 @@ const Profile = ({navigation}) => {
                             </View>
                             
                         </View>
-                        <TouchableOpacity onPress={() => alert("İlaçlarım")} style={styles.infoBoxWrapper2}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Medication')} style={styles.infoBoxWrapper2}>
                             <View style={{ width: '100%',
                             flexDirection: 'row',
                             alignSelf: "center",}}>
@@ -357,7 +401,7 @@ const Profile = ({navigation}) => {
                                
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => alert("İletişim Kişilerim")} style={styles.infoBoxWrapper3}>
+                        <TouchableOpacity onPress={() => navigation.navigate('EmergencyPeople')} style={styles.infoBoxWrapper3}>
                             <View style={{ width: '100%',
                             flexDirection: 'row',
                             alignSelf: "center",}}>
@@ -395,6 +439,7 @@ const styles = StyleSheet.create({
     },
     header2: {
         marginTop: 5,
+        marginLeft:58,
         width: '70%',
         height: '8%',
         borderRadius: 60, 

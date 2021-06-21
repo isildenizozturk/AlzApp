@@ -8,9 +8,11 @@ const EPBar = ({personName,personPhone,personExp, onDelete, ...props}) => {
       <View style={styles.itemLeft}>
         <Icon name='delete' color='red' size={32} onPress={() => onDelete()} style={styles.square}></Icon>
       </View>
-      <Text style={styles.itemText}>{personName}</Text>
+      <View style={{flexDirection: 'column'}}>
+        <Text style={styles.itemText}>{personName}</Text>
         <Text style={styles.itemText}>{personPhone}</Text>
         <Text style={styles.itemText}>{personExp}</Text>
+      </View>
       <View style={styles.circular}></View>
     </View>
   )
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
     marginRight: 15, 
   },
   itemText: {
-    maxWidth: '80%',
+    maxWidth: '100%',
   },
   circular: {
     width: 12,
